@@ -1,0 +1,13 @@
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\obj\Debug\MollieProvider.csproj.App.config
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\obj\Debug\MollieProvider.csprojResolveAssemblyReference.cache
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\MollieProvider.dll.config
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\MollieProvider.dll
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\MollieProvider.pdb
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\Newtonsoft.Json.dll
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\System.Net.Http.Extensions.dll
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\System.Net.Http.Primitives.dll
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\Newtonsoft.Json.xml
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\System.Net.Http.Extensions.xml
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\bin\Debug\System.Net.Http.Primitives.xml
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\obj\Debug\MollieProvider.dll
+c:\users\yannic\documents\visual studio 2013\Projects\MollieProvider\MollieProvider\obj\Debug\MollieProvider.pdb
