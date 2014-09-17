@@ -75,6 +75,7 @@
     <Compile Include="MollieCreateRequest.cs" />
     <Compile Include="Ideal\MollieIssuersResponse.cs" />
     <Compile Include="MollieRefundResponse.cs" />
+    <Compile Include="MollieResponse.cs" />
     <Compile Include="MollieStatusResponse.cs" />
     <Compile Include="Paypal\MolliePaypal.cs" />
     <Compile Include="Paypal\MolliePaypalCreateRequest.cs" />

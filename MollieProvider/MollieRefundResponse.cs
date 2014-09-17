@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MollieProvider
 {
-  public class MollieRefundResponse
+  public class MollieRefundResponse : MollieResponse
   {
     public string Id { get; set; }
 
