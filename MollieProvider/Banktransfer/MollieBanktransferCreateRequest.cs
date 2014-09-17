@@ -10,6 +10,6 @@ namespace MollieProvider.Banktransfer
   {
     public string BillingEmail { get; set; }
 
-    public DateTime DueDate { get; set; }
+    public DateTime? DueDate { get; set; }
   }
 }

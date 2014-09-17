@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +11,32 @@ namespace MollieProvider.Paypal
   {
     public MolliePaypal(string Key) : base(Key) { }
 
+    public async Task<MolliePaypalStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string shippingAddress = null, string shippingCity = null, string shippingRegion = null, string shippingPostal = null, string shippingCountry = null)
+    {
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MolliePaypalCreateRequest;
+      requestData.Method = "paypal";
+      requestData.ShippingAddress = shippingAddress;
+      requestData.ShippingCity = shippingCity;
+      requestData.ShippingRegion = shippingRegion;
+      requestData.ShippingPostal = shippingPostal;
+      requestData.ShippingCountry = shippingCountry;
+
+      return await CreateTransaction(requestData);
+    }
+
     public async Task<MolliePaypalStatusResponse> CreateTransaction(MolliePaypalCreateRequest requestData)
     {
       var response = await base.CreateTransaction<MolliePaypalStatusResponse>(requestData);
       return response;
     }
 
-    public async Task<MolliePaypalStatusResponse> GetTransactionStatus(string id)
+    new public async Task<MolliePaypalStatusResponse> GetTransactionStatus(string id)
     {
       var response = await base.GetTransactionStatus<MolliePaypalStatusResponse>(id);
       return response;
     }
 
-    public async Task<MolliePaypalRefundResponse> RefundTransaction(string id)
+    new public async Task<MolliePaypalRefundResponse> RefundTransaction(string id)
     {
       var response = await base.RefundTransaction<MolliePaypalRefundResponse>(id);
       return response;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +11,27 @@ namespace MollieProvider.Bitcoin
   {
     public MollieBitcoin(string Key) : base(Key) { }
 
+    new public async Task<MollieBitcoinStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    {
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieBitcoinCreateRequest;
+      requestData.Method = "bitcoin";
+
+      return await CreateTransaction(requestData);
+    }
+
     public async Task<MollieBitcoinStatusResponse> CreateTransaction(MollieBitcoinCreateRequest requestData)
     {
       var response = await base.CreateTransaction<MollieBitcoinStatusResponse>(requestData);
       return response;
     }
 
-    public async Task<MollieBitcoinStatusResponse> GetTransactionStatus(string id)
+    new public async Task<MollieBitcoinStatusResponse> GetTransactionStatus(string id)
     {
       var response = await base.GetTransactionStatus<MollieBitcoinStatusResponse>(id);
       return response;
     }
 
-    public async Task<MollieBitcoinRefundResponse> RefundTransaction(string id)
+    new public async Task<MollieBitcoinRefundResponse> RefundTransaction(string id)
     {
       var response = await base.RefundTransaction<MollieBitcoinRefundResponse>(id);
       return response;

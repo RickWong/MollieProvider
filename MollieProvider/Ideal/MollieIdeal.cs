@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -21,19 +22,28 @@ namespace MollieProvider.Ideal
       return response;
     }
 
+    public async Task<MollieIdealStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string issuer = null)
+    {
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieIdealCreateRequest;
+      requestData.Method = "ideal";
+      requestData.Issuer = issuer;
+
+      return await CreateTransaction(requestData);
+    }
+
     public async Task<MollieIdealStatusResponse> CreateTransaction(MollieIdealCreateRequest requestData)
     {
       var response = await base.CreateTransaction<MollieIdealStatusResponse>(requestData);
       return response;
     }
 
-    public async Task<MollieIdealStatusResponse> GetTransactionStatus(string id)
+    new public async Task<MollieIdealStatusResponse> GetTransactionStatus(string id)
     {
       var response = await base.GetTransactionStatus<MollieIdealStatusResponse>(id);
       return response;
     }
 
-    public async Task<MollieIdealRefundResponse> RefundTransaction(string id)
+    new public async Task<MollieIdealRefundResponse> RefundTransaction(string id)
     {
       var response = await base.RefundTransaction<MollieIdealRefundResponse>(id);
       return response;

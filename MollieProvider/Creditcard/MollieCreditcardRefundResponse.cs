@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MollieProvider.Creditcard
 {
-  public class MollieCreditcardRefundResponse
+  public class MollieCreditcardRefundResponse : MollieRefundResponse
   {
     public MollieCreditcardStatusResponse Payment { get; set; }
   }

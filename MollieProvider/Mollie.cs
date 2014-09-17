@@ -1,7 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using MollieProvider.Banktransfer;
+using MollieProvider.Bitcoin;
+using MollieProvider.Creditcard;
+using MollieProvider.Ideal;
+using MollieProvider.Mistercash;
+using MollieProvider.Paypal;
+using MollieProvider.Paysafecard;
+using MollieProvider.Sofort;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,27 +31,95 @@ namespace MollieProvider
       Key = key;
     }
 
-    public virtual async Task<T> CreateTransaction<T>(MollieCreateRequest requestData) where T : class
+    public async Task<MollieStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
     {
-      var result = await SendJsonRequest<T>(molliePaymentsUrl, HttpMethod.Post, requestData);
-      return result;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale);
+      var response = await CreateTransaction<MollieStatusResponse>(requestData);
+      return response;
     }
 
-    public virtual async Task<T> GetTransactionStatus<T>(string id) where T : class
+    public async Task<MollieStatusResponse> GetTransactionStatus(string id)
+    {
+      var url = molliePaymentsUrl + id;
+      var responseString = await SendJsonRequest(url, HttpMethod.Get);
+      var response = ParseJsonResponseString<MollieStatusResponse>(responseString);
+      switch (response.Method)
+      {
+        case "banktransfer":
+          response = ParseJsonResponseString<MollieBanktransferStatusResponse>(responseString);
+          break;
+        case "bitcoin":
+          response = ParseJsonResponseString<MollieBitcoinStatusResponse>(responseString);
+          break;
+        case "creditcard":
+          response = ParseJsonResponseString<MollieCreditcardStatusResponse>(responseString);
+          break;
+        case "ideal":
+          response = ParseJsonResponseString<MollieIdealStatusResponse>(responseString);
+          break;
+        case "mistercash":
+          response = ParseJsonResponseString<MollieMistercashStatusResponse>(responseString);
+          break;
+        case "paypal":
+          response = ParseJsonResponseString<MolliePaypalStatusResponse>(responseString);
+          break;
+        case "paysafecard":
+          response = ParseJsonResponseString<MolliePaysafecardStatusResponse>(responseString);
+          break;
+        case "sofort":
+          response = ParseJsonResponseString<MollieSofortStatusResponse>(responseString);
+          break;
+      }
+
+      return response;
+    }
+
+    public async Task<MollieRefundResponse> RefundTransaction(string id)
+    {
+      var response = await RefundTransaction<MollieRefundResponse>(id);
+      return response;
+    }
+
+    internal async Task<T> CreateTransaction<T>(MollieCreateRequest requestData) where T : MollieStatusResponse
+    {
+      var response = await SendJsonRequest<T>(molliePaymentsUrl, HttpMethod.Post, requestData);
+      return response;
+    }
+
+    internal async Task<T> GetTransactionStatus<T>(string id) where T : MollieStatusResponse
     {
       var url = molliePaymentsUrl + id;
       T response = await SendJsonRequest<T>(url, HttpMethod.Get);
       return response;
     }
 
-    public virtual async Task<T> RefundTransaction<T>(string id) where T : class
+    internal async Task<T> RefundTransaction<T>(string id) where T : MollieRefundResponse
     {
       var url = molliePaymentsUrl + id + "/refunds";
       T response = await SendJsonRequest<T>(url, HttpMethod.Post);
       return response;
     }
 
-    protected async Task<T> SendJsonRequest<T>(string url, HttpMethod method, object obj = null) where T : class
+    internal async Task<T> SendJsonRequest<T>(string url, HttpMethod method, object obj = null) where T : class
+    {
+      var responseString = await SendJsonRequest(url, method, obj);
+      T result = ParseJsonResponseString<T>(responseString);
+      return result;
+    }
+
+    internal MollieCreateRequest CreateMollieCreateRequest(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    {
+      return new MollieCreateRequest
+      {
+        Amount = amount,
+        Description = description,
+        RedirectUrl = redirectUrl,
+        WebhookUrl = webhookUrl,
+        Locale = locale != null && acceptedLocales.Contains(locale.TwoLetterISOLanguageName) ? locale.TwoLetterISOLanguageName : null,
+      };
+    }
+
+    private async Task<string> SendJsonRequest(string url, HttpMethod method, object obj = null)
     {
       using (var client = new HttpClient())
       {
@@ -66,11 +143,14 @@ namespace MollieProvider
 
 
           var response = await client.SendAsync(request);
-          var responseString = await response.Content.ReadAsStringAsync();
-          T result = JsonConvert.DeserializeObject<T>(responseString);
-          return result;
+          return await response.Content.ReadAsStringAsync();
         }
       }
+    }
+
+    private T ParseJsonResponseString<T>(string responseString) where T : class
+    {
+      return JsonConvert.DeserializeObject<T>(responseString);
     }
   }
 }
