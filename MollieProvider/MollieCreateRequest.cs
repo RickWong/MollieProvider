@@ -19,5 +19,7 @@ namespace MollieProvider
     public string WebhookUrl { get; set; }
 
     public string Locale { get; set; }
+
+    public Dictionary<string, string> Metadata { get; set; }
   }
 }

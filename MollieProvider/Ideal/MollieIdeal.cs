@@ -22,9 +22,9 @@ namespace MollieProvider.Ideal
       return response;
     }
 
-    public async Task<MollieIdealStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string issuer = null)
+    public async Task<MollieIdealStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string issuer = null, Dictionary<string, string> metadata = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieIdealCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieIdealCreateRequest;
       requestData.Method = "ideal";
       requestData.Issuer = issuer;
 

@@ -11,9 +11,10 @@ namespace MollieProvider.Paysafecard
   {
     public MolliePaysafecard(string Key) : base(Key) { }
 
-    public async Task<MolliePaysafecardStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string customerReference = null)
+    public async Task<MolliePaysafecardStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null,
+      string customerReference = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MolliePaysafecardCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MolliePaysafecardCreateRequest;
       requestData.Method = "paysafecard";
       requestData.CustomerReference = customerReference;
 

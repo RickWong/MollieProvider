@@ -11,9 +11,9 @@ namespace MollieProvider.Mistercash
   {
     public MollieMistercash(string Key) : base(Key) { }
 
-    new public async Task<MollieMistercashStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    new public async Task<MollieMistercashStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieMistercashCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieMistercashCreateRequest;
       requestData.Method = "mistercash";
 
       return await CreateTransaction(requestData);

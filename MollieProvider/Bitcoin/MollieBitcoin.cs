@@ -11,9 +11,9 @@ namespace MollieProvider.Bitcoin
   {
     public MollieBitcoin(string Key) : base(Key) { }
 
-    new public async Task<MollieBitcoinStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    new public async Task<MollieBitcoinStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieBitcoinCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieBitcoinCreateRequest;
       requestData.Method = "bitcoin";
 
       return await CreateTransaction(requestData);

@@ -11,10 +11,10 @@ namespace MollieProvider.Banktransfer
   {
     public MollieBanktransfer(string Key) : base(Key) { }
 
-    public async Task<MollieBanktransferStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, 
+    public async Task<MollieBanktransferStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null,
       string billingEmail = null, DateTime? dueDate = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieBanktransferCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieBanktransferCreateRequest;
       requestData.Method = "banktransfer";
       requestData.BillingEmail = billingEmail;
       requestData.DueDate = dueDate;

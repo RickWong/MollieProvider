@@ -12,11 +12,11 @@ namespace MollieProvider.Creditcard
 
     public MollieCreditcard(string Key) : base(Key) { }
 
-    public async Task<MollieCreditcardStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, 
+    public async Task<MollieCreditcardStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null,
       string billingCity = null, string billingRegion = null, string billingPostal = null, string billingCountry = null, 
       string shippingAddress = null, string shippingCity = null, string shippingRegion = null, string shippingPostal = null, string shippingCountry = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieCreditcardCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieCreditcardCreateRequest;
       requestData.Method = "creditcard";
       requestData.BillingCity = billingCity;
       requestData.BillingRegion = billingRegion;

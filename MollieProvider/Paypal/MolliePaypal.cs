@@ -11,9 +11,10 @@ namespace MollieProvider.Paypal
   {
     public MolliePaypal(string Key) : base(Key) { }
 
-    public async Task<MolliePaypalStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string shippingAddress = null, string shippingCity = null, string shippingRegion = null, string shippingPostal = null, string shippingCountry = null)
+    public async Task<MolliePaypalStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null,
+      string shippingAddress = null, string shippingCity = null, string shippingRegion = null, string shippingPostal = null, string shippingCountry = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MolliePaypalCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MolliePaypalCreateRequest;
       requestData.Method = "paypal";
       requestData.ShippingAddress = shippingAddress;
       requestData.ShippingCity = shippingCity;

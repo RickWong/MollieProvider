@@ -29,6 +29,8 @@ namespace MollieProvider
     public string Method { get; set; }
 
     public MollieLinks Links { get; set; }
+
+    public Dictionary<string, string> Metadata { get; set; }
   }
 
   public class MollieLinks

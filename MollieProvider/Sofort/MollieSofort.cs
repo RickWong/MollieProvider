@@ -11,9 +11,9 @@ namespace MollieProvider.Sofort
   {
     public MollieSofort(string Key) : base(Key) { }
 
-    public async Task<MollieSofortStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, string issuer = null)
+    public async Task<MollieSofortStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null)
     {
-      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale) as MollieSofortCreateRequest;
+      var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale, metadata) as MollieSofortCreateRequest;
       requestData.Method = "sofort";
 
       return await CreateTransaction(requestData);

@@ -31,7 +31,7 @@ namespace MollieProvider
       Key = key;
     }
 
-    public async Task<MollieStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    public async Task<MollieStatusResponse> CreateTransaction(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null)
     {
       var requestData = CreateMollieCreateRequest(amount, description, redirectUrl, webhookUrl, locale);
       var response = await CreateTransaction<MollieStatusResponse>(requestData);
@@ -107,7 +107,7 @@ namespace MollieProvider
       return result;
     }
 
-    internal MollieCreateRequest CreateMollieCreateRequest(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null)
+    internal MollieCreateRequest CreateMollieCreateRequest(double amount, string description, string redirectUrl, string webhookUrl = null, CultureInfo locale = null, Dictionary<string, string> metadata = null)
     {
       return new MollieCreateRequest
       {
@@ -116,6 +116,7 @@ namespace MollieProvider
         RedirectUrl = redirectUrl,
         WebhookUrl = webhookUrl,
         Locale = locale != null && acceptedLocales.Contains(locale.TwoLetterISOLanguageName) ? locale.TwoLetterISOLanguageName : null,
+        Metadata = metadata,
       };
     }
 
